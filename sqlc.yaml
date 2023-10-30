@@ -1,0 +1,12 @@
+version: "2"
+sql:
+- schema: "db/migration"
+  queries: "db/query"
+  engine: "postgresql"
+  gen:
+    go: 
+      package: "db"
+      out: "db"
+  database:
+    uri: "postgresql://root:root@123@localhost:5432/simpleBank"
+
