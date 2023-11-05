@@ -75,10 +75,17 @@ func (q *Queries) GetAccount(ctx context.Context, arg GetAccountParams) (Account
 const listAcounts = `-- name: ListAcounts :many
 SELECT id, owner, balance, currency, created_at FROM accounts
 ORDER BY id
+LIMIT $1
+OFFSET $2
 `
 
-func (q *Queries) ListAcounts(ctx context.Context) ([]Account, error) {
-	rows, err := q.db.QueryContext(ctx, listAcounts)
+type ListAcountsParams struct {
+	Limit  int64
+	Offset int64
+}
+
+func (q *Queries) ListAcounts(ctx context.Context, arg ListAcountsParams) ([]Account, error) {
+	rows, err := q.db.QueryContext(ctx, listAcounts, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

@@ -9,7 +9,10 @@ RETURNING *;
 
 -- name: ListEntries :many
 SELECT * FROM entries
-ORDER BY account_id;
+ORDER BY account_id
+LIMIT $1
+OFFSET $2;
+
 
 -- name: GetEntries :one
 SELECT * FROM entries

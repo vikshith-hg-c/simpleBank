@@ -14,13 +14,19 @@ dropdb:
 	docker exec -it simpleBankPostgres dropdb simpleBank
 
 migratedbup:
-	migrate -path db/migration -database "postgresql://root:root@123@localhost:5432/simpleBank?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://root:root@123@192.168.29.145:5432/simpleBank?sslmode=disable" -verbose up
 
 migratedbdown: 
-	migrate -path db/migration -database "postgresql://root:root@123@localhost:5432/simpleBank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://root:root@123@192.168.29.145:5432/simpleBank?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
 
-.PHONY: postgrescreate postgresdelete createdb dropdb postgresstop migratedbup migratedbdown sqlc
+dbtest:
+	go test -cover -v ./db/sqlc/...
+
+cleantestcacahe:
+	go clean -testcache
+
+.PHONY: postgrescreate postgresdelete createdb dropdb postgresstop migratedbup migratedbdown sqlc dbtest cleantestcacahe
     
